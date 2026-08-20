@@ -15,8 +15,10 @@ jobs:
         with:
           targets: mipsle-unknown-linux-musl
 
-      - name: Install cross
-        run: cargo install cross --git https://github.com/cross-rs/cross
+      - name: Setup Cross
+        uses: cross-rs/setup-cross-action@v1
+        with:
+          target: mipsle-unknown-linux-musl
 
       - name: Build target
         run: cd csqtt-uring && cross build --target mipsle-unknown-linux-musl --release
