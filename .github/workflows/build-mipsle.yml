@@ -1,0 +1,28 @@
+name: Build MIPSLE Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: mipsle-unknown-linux-musl
+
+      - name: Install cross
+        run: cargo install cross --git https://github.com/cross-rs/cross
+
+      - name: Build target
+        run: cd csqtt-uring && cross build --target mipsle-unknown-linux-musl --release
+
+      - name: Upload Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: csqtt-server-mipsle
+          path: csqtt-uring/target/mipsle-unknown-linux-musl/release/csqtt-uring
