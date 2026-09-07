@@ -1,0 +1,40 @@
+name: Build CSQTT Server
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-mips:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install MIPS Cross-Compiler Toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-mipsel-linux-gnu g++-mipsel-linux-gnu
+
+      - name: Install Rust Nightly
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          targets: mipsel-unknown-linux-gnu
+          components: rust-src
+
+      - name: Build binary with build-std
+        run: |
+          CARGO_TARGET_MIPSEL_UNKNOWN_LINUX_GNU_LINKER=mipsel-linux-gnu-gcc \
+          cargo +nightly build \
+            --target mipsel-unknown-linux-gnu \
+            -Z build-std=core,alloc,std,panic_unwind \
+            --release
+
+      - name: Upload Binary Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: csqtt-server-mipsel
+          path: target/mipsel-unknown-linux-gnu/release/csqtt-server
