@@ -19,17 +19,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y gcc-mipsel-linux-gnu g++-mipsel-linux-gnu
 
-      - name: Install Specific Rust Nightly
-        uses: dtolnay/rust-toolchain@master
+      - name: Install Rust Nightly
+        uses: dtolnay/rust-toolchain@nightly
         with:
-          toolchain: nightly-2024-03-01
-          targets: mipsel-unknown-linux-gnu
           components: rust-src
 
       - name: Build binary with build-std
         run: |
           CARGO_TARGET_MIPSEL_UNKNOWN_LINUX_GNU_LINKER=mipsel-linux-gnu-gcc \
-          cargo +nightly-2024-03-01 build \
+          cargo +nightly build \
             --target mipsel-unknown-linux-gnu \
             -Z build-std=core,alloc,std,panic_unwind \
             --release
