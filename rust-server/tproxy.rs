@@ -15,9 +15,10 @@ use crossbeam_queue::ArrayQueue;
 use dashmap::DashMap;
 use std::collections::HashMap;
 use std::net::Ipv4Addr;
+use crate::AtomicU64;
 use std::sync::{
     Arc, Mutex, Weak,
-    atomic::{AtomicU64, AtomicUsize, Ordering},
+    atomic::{AtomicUsize, Ordering},
 };
 use tokio_util::sync::CancellationToken;
 
