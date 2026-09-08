@@ -27,8 +27,13 @@ jobs:
       - name: Build binary with build-std
         working-directory: rust-server
         run: |
+          mkdir -p bin
+          echo '#!/bin/sh' > bin/mipsel-linux-gnu-g++
+          echo 'exit 0' >> bin/mipsel-linux-gnu-g++
+          chmod +x bin/mipsel-linux-gnu-g++
+          
+          PATH="$PWD/bin:$PATH" \
           CARGO_TARGET_MIPSEL_UNKNOWN_LINUX_GNU_LINKER=mipsel-linux-gnu-gcc \
-          SNMALLOC_RUST_EXTERNAL_TOOL=1 \
           cargo +nightly build \
             --target mipsel-unknown-linux-gnu \
             -Z build-std=core,alloc,std,panic_unwind \
