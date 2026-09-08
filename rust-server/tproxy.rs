@@ -2304,7 +2304,8 @@ mod linux {
 
 #[cfg(test)]
 mod tests {
-    use super::{DeviceQuotaRegistry, TproxyStats, tproxy_port};
+    use crate::{AtomicI64, AtomicU64};
+    use std::sync::atomic::{AtomicBool, Ordering};
 
     #[cfg(target_os = "linux")]
     #[test]
