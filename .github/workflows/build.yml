@@ -24,12 +24,13 @@ jobs:
         with:
           components: rust-src
 
-      - name: Build binary with build-std
+      - name: Build binary without snmalloc
         working-directory: rust-server
         run: |
           CARGO_TARGET_MIPSEL_UNKNOWN_LINUX_GNU_LINKER=mipsel-linux-gnu-gcc \
           cargo +nightly build \
             --target mipsel-unknown-linux-gnu \
+            --no-default-features \
             -Z build-std=core,alloc,std,panic_unwind \
             --release
 
