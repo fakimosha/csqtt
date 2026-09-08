@@ -194,6 +194,6 @@ pub fn available_memory_bytes() -> Option<u64> {
     None
 }
 
-pub fn collect_allocator_thread_heap() -> serde_json::Value {
-    serde_json::Value::Null
+pub fn collect_allocator_thread_heap() -> bool {
+    false
 }
