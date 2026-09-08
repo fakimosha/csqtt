@@ -50,7 +50,7 @@ tun = "=0.8.14"
 x25519-dalek = { version = "2.0", features = ["static_secrets"] }
 
 [target.'cfg(target_os = "linux")'.dependencies]
-snmalloc-rs = { version = "0.7.5", default-features = false }
+snmalloc-rs = "0.7.5"
 
 [dev-dependencies]
 tokio = { version = "1.53.1", features = ["test-util"] }
