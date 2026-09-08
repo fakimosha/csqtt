@@ -20,7 +20,16 @@ pub struct ProcessMetrics {
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct SmapsRollupMetrics {
     pub available: bool,
-    // Добавьте поля smaps_rollup, если они выводятся далее в форматировании
+    pub rss_kib: u64,
+    pub pss_kib: u64,
+    pub private_kib: u64,
+    pub shared_kib: u64,
+    pub swap_kib: u64,
+    pub swap_pss_kib: u64,
+    pub pss_anon_kib: u64,
+    pub pss_file_kib: u64,
+    pub pss_shmem_kib: u64,
+    pub anonymous_kib: u64,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
@@ -44,9 +53,9 @@ pub struct CgroupMetrics {
     pub version: String,
     pub current_bytes: u64,
     pub peak_bytes: u64,
-    pub max_bytes: u64,
-    pub swap_current_bytes: u64,
-    pub swap_max_bytes: u64,
+    pub max_bytes: Option<u64>,
+    pub swap_current_bytes: Option<u64>,
+    pub swap_max_bytes: Option<u64>,
     pub anon_bytes: u64,
     pub file_bytes: u64,
     pub shmem_bytes: u64,
@@ -160,7 +169,19 @@ pub struct MetricFrame {
     pub mappings: MetricCategories,
     pub cgroup: CgroupMetrics,
     pub sockets: SocketMetrics,
-    pub buffers: BufferMetrics,
+    pub fixed_buffers: BufferMetrics,
     pub runtime: RuntimeMetrics,
     pub storage: StorageMetrics,
+}
+
+pub fn allocated_bytes() -> usize {
+    0
+}
+
+pub fn retained_bytes() -> usize {
+    0
+}
+
+pub fn available_memory_bytes() -> Option<u64> {
+    None
 }
