@@ -469,7 +469,7 @@ pub fn now() -> i64 {
         .as_secs() as i64
 }
 
-static CACHED_NOW: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+static CACHED_NOW: crate::AtomicU64 = crate::AtomicU64::new(0);
 
 #[inline(always)]
 pub fn cached_now() -> u64 {
