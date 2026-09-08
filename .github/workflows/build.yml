@@ -17,7 +17,7 @@ jobs:
       - name: Install MIPS Cross-Compiler Toolchain
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc-mipsel-linux-gnu g++-mipsel-linux-gnu
+          sudo apt-get install -y gcc-mipsel-linux-gnu g++-mipsel-linux-gnu libc6-dev-mipsel-cross
 
       - name: Install Rust Nightly
         uses: dtolnay/rust-toolchain@nightly
@@ -28,7 +28,7 @@ jobs:
         working-directory: rust-server
         run: |
           CARGO_TARGET_MIPSEL_UNKNOWN_LINUX_GNU_LINKER=mipsel-linux-gnu-gcc \
-          RUSTFLAGS="-C target-feature=+crt-static" \
+          RUSTFLAGS="-C link-arg=-Wl,-dynamic-linker=/opt/lib/ld-linux.so.2" \
           cargo +nightly build \
             --target mipsel-unknown-linux-gnu \
             -Z build-std=core,alloc,std,panic_unwind \
