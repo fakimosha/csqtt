@@ -1,4 +1,7 @@
 use serde::{Deserialize, Serialize};
+use std::time::Duration;
+
+pub const METRIC_SAMPLE_INTERVAL: Duration = Duration::from_secs(1);
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct MetricBoolFlag {
@@ -160,6 +163,7 @@ pub struct StorageMetrics {
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct MetricFrame {
+    pub error: String,
     pub timestamp_ms: u64,
     pub pid: u32,
     pub allocated_bytes: u64,
@@ -172,6 +176,10 @@ pub struct MetricFrame {
     pub fixed_buffers: BufferMetrics,
     pub runtime: RuntimeMetrics,
     pub storage: StorageMetrics,
+}
+
+pub async fn collect_metric_frame<T>(_app: &T) -> MetricFrame {
+    MetricFrame::default()
 }
 
 pub fn allocated_bytes() -> usize {
