@@ -24,7 +24,7 @@ jobs:
 
       - name: Build binary with cross
         working-directory: rust-server
-        run: cargo cross build --target mipsel-unknown-linux-musl -Z build-std=core,alloc,std,panic_unwind --release
+        run: ~/.cargo/bin/cross build --target mipsel-unknown-linux-musl -Z build-std=core,alloc,std,panic_unwind --release
 
       - name: Upload Binary Artifact
         uses: actions/upload-artifact@v4
