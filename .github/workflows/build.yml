@@ -14,10 +14,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install MIPS Cross-Compiler Toolchain and CMake
+      - name: Install MIPS Cross-Compiler Toolchain
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc-mipsel-linux-gnu g++-mipsel-linux-gnu cmake build-essential
+          sudo apt-get install -y gcc-mipsel-linux-gnu g++-mipsel-linux-gnu
 
       - name: Install Rust Nightly
         uses: dtolnay/rust-toolchain@nightly
@@ -27,21 +27,7 @@ jobs:
       - name: Build binary with build-std
         working-directory: rust-server
         run: |
-          # Перенаправляем создание статических библиотек snmalloc на создание пустой заглушки
-          mkdir -p bin
-          cat << 'EOF' > bin/ar
-          #!/bin/sh
-          if echo "$@" | grep -q "snmalloc"; then
-            touch "$@"
-            exit 0
-          fi
-          exec /usr/bin/mipsel-linux-gnu-ar "$@"
-          EOF
-          chmod +x bin/ar
-
-          PATH="$PWD/bin:$PATH" \
           CARGO_TARGET_MIPSEL_UNKNOWN_LINUX_GNU_LINKER=mipsel-linux-gnu-gcc \
-          SNMALLOC_RUST_EXTERNAL_TOOL=1 \
           cargo +nightly build \
             --target mipsel-unknown-linux-gnu \
             -Z build-std=core,alloc,std,panic_unwind \
