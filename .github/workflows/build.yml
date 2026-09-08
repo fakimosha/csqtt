@@ -19,18 +19,18 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y gcc-mipsel-linux-gnu g++-mipsel-linux-gnu
 
-      - name: Install Rust Toolchain & Target
+      - name: Install Rust Nightly
         uses: dtolnay/rust-toolchain@nightly
         with:
-          targets: mipsel-unknown-linux-musl
           components: rust-src
 
-      - name: Build binary with musl
+      - name: Build binary with build-std
         working-directory: rust-server
         run: |
           CARGO_TARGET_MIPSEL_UNKNOWN_LINUX_MUSL_LINKER=mipsel-linux-gnu-gcc \
           cargo +nightly build \
             --target mipsel-unknown-linux-musl \
+            -Z build-std=core,alloc,std,panic_unwind \
             --release
 
       - name: Upload Binary Artifact
