@@ -1,8 +1,7 @@
 #![recursion_limit = "256"]
-// SPDX-FileCopyrightText: 2026 amurcanov
-// #[cfg(target_os = "linux")]
-// #[global_allocator]
-// static GLOBAL_ALLOCATOR: snmalloc_rs::SnMalloc = snmalloc_rs::SnMalloc;
+
+#[global_allocator]
+static GLOBAL_ALLOCATOR: std::alloc::System = std::alloc::System;
 
 pub const fn allocator_name() -> &'static str {
     "system"
