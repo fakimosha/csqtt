@@ -28,6 +28,7 @@ jobs:
         working-directory: rust-server
         run: |
           CARGO_TARGET_MIPSEL_UNKNOWN_LINUX_MUSL_LINKER=mipsel-linux-gnu-gcc \
+          RUSTFLAGS="-C link-arg=-lm -C target-feature=+soft-float" \
           cargo +nightly build \
             --target mipsel-unknown-linux-musl \
             -Z build-std=core,alloc,std,panic_unwind \
