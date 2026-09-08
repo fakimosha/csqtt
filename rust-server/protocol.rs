@@ -4,6 +4,7 @@
 #[cfg(feature = "diagnostics")]
 use crate::perf::thread_cpu_time_ns;
 use crate::{
+    AtomicU64,
     App,
     dataplane::{self, DataplaneConfig, DataplaneLogic, EndpointRoute, WorkerContext},
     downlink_queue::DownlinkQueue,
@@ -25,10 +26,10 @@ use rand::{Rng, RngCore, SeedableRng, rngs::OsRng, rngs::StdRng};
 use std::{
     collections::{HashMap, HashSet, VecDeque},
     net::{IpAddr, Ipv4Addr, SocketAddr},
-    sync::{
-        Arc, RwLock,
-        atomic::{AtomicBool, AtomicU64, Ordering},
-    },
+sync::{
+    Arc, RwLock,
+    atomic::{AtomicBool, Ordering},
+},
     time::{Duration, Instant, SystemTime, UNIX_EPOCH},
 };
 use subtle::ConstantTimeEq;
