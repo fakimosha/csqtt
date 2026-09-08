@@ -1,3 +1,4 @@
+#![recursion_limit = "256"]
 // SPDX-FileCopyrightText: 2026 amurcanov
 // #[cfg(target_os = "linux")]
 // #[global_allocator]
