@@ -14,17 +14,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Rust Toolchain
-        uses: dtolnay/rust-toolchain@stable
+      - name: Install Rust Nightly
+        uses: dtolnay/rust-toolchain@nightly
         with:
-          targets: mipsel-unknown-linux-musl
+          components: rust-src
 
       - name: Install cross
         run: cargo install cross --git https://github.com/cross-rs/cross
 
       - name: Build binary with cross
         working-directory: rust-server
-        run: cargo cross build --target mipsel-unknown-linux-musl --release
+        run: cargo cross build --target mipsel-unknown-linux-musl -Z build-std=core,alloc,std,panic_unwind --release
 
       - name: Upload Binary Artifact
         uses: actions/upload-artifact@v4
