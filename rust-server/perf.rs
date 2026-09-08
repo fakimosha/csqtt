@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 use serde::{Deserialize, Serialize};
+use crate::AtomicU64;
 use std::sync::{
     LazyLock, RwLock,
-    atomic::{AtomicU64, Ordering},
+    atomic::Ordering,
 };
 
 pub const SAMPLE_INTERVAL: u64 = 64;
