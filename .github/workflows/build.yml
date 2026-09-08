@@ -28,6 +28,7 @@ jobs:
         working-directory: csqtt-uring
         run: |
           CARGO_TARGET_MIPSEL_UNKNOWN_LINUX_GNU_LINKER=mipsel-linux-gnu-gcc \
+          RUSTFLAGS="--cfg=io_uring_skip_arch_check" \
           cargo +nightly build \
             --target mipsel-unknown-linux-gnu \
             -Z build-std=core,alloc,std,panic_unwind \
