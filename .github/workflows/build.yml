@@ -28,7 +28,7 @@ jobs:
         working-directory: rust-server
         run: |
           CARGO_TARGET_MIPSEL_UNKNOWN_LINUX_GNU_LINKER=mipsel-linux-gnu-gcc \
-          RUSTFLAGS="-C link-arg=-Wl,-dynamic-linker=/opt/lib/ld.so.1" \
+          RUSTFLAGS="-C link-arg=-Wl,-dynamic-linker=/opt/lib/ld.so.1 -C link-arg=-static-libgcc" \
           cargo +nightly build \
             --target mipsel-unknown-linux-gnu \
             -Z build-std=core,alloc,std,panic_unwind \
