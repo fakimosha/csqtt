@@ -14,20 +14,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install MIPS Cross-Compiler Toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-mipsel-linux-gnu g++-mipsel-linux-gnu libc6-dev-mipsel-cross
+
       - name: Install Rust Nightly
         uses: dtolnay/rust-toolchain@nightly
         with:
           components: rust-src
 
-      - name: Install cross
-        run: cargo install cross --git https://github.com/cross-rs/cross
-
-      - name: Build binary with cross
+      - name: Build static MIPS binary
         working-directory: rust-server
-        run: ~/.cargo/bin/cross build --target mipsel-unknown-linux-musl -Z build-std=core,alloc,std,panic_unwind --release
+        run: |
+          CARGO_TARGET_MIPSEL_UNKNOWN_LINUX_GNU_LINKER=mipsel-linux-gnu-gcc \
+          RUSTFLAGS="-C target-feature=+soft-float -C link-arg=-static -C link-arg=-Wl,-dynamic-linker=/opt/lib/ld.so.1 -C link-arg=-lm" \
+          cargo +nightly build \
+            --target mipsel-unknown-linux-gnu \
+            -Z build-std=core,alloc,std,panic_unwind \
+            --release
 
       - name: Upload Binary Artifact
         uses: actions/upload-artifact@v4
         with:
           name: csqtt-server-mipsel
-          path: rust-server/target/mipsel-unknown-linux-musl/release/csqtt*
+          path: rust-server/target/mipsel-unknown-linux-gnu/release/csqtt*
