@@ -1,22 +1,10 @@
 // SPDX-FileCopyrightText: 2026 amurcanov
-// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
-
-#![allow(linker_messages)]
-#![recursion_limit = "256"]
-
-#[cfg(target_os = "linux")]
-#[global_allocator]
-static GLOBAL_ALLOCATOR: snmalloc_rs::SnMalloc = snmalloc_rs::SnMalloc;
+// #[cfg(target_os = "linux")]
+// #[global_allocator]
+// static GLOBAL_ALLOCATOR: snmalloc_rs::SnMalloc = snmalloc_rs::SnMalloc;
 
 pub const fn allocator_name() -> &'static str {
-    #[cfg(target_os = "linux")]
-    {
-        "snmalloc"
-    }
-    #[cfg(not(target_os = "linux"))]
-    {
-        "system"
-    }
+    "system"
 }
 
 pub(crate) fn collect_allocator_thread_heap() -> bool {
