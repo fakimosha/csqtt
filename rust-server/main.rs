@@ -1,11 +1,11 @@
+#![recursion_limit = "512"]
+
 // Алиас для поддержки AtomicU64/AtomicI64 на 32-битных архитектурах (MIPS и др.)
 #[cfg(target_has_atomic = "64")]
 pub use std::sync::atomic::{AtomicI64, AtomicU64};
 
 #[cfg(not(target_has_atomic = "64"))]
 pub use portable_atomic::{AtomicI64, AtomicU64};
-
-#![recursion_limit = "256"]
 
 #[global_allocator]
 static GLOBAL_ALLOCATOR: std::alloc::System = std::alloc::System;
