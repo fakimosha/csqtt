@@ -17,25 +17,24 @@ jobs:
       - name: Install MIPS Cross-Compiler Toolchain
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc-mipsel-linux-gnu g++-mipsel-linux-gnu libc6-dev-mipsel-cross
+          sudo apt-get install -y gcc-mipsel-linux-gnu g++-mipsel-linux-gnu
 
-      - name: Install Rust Nightly
+      - name: Install Rust Toolchain & Target
         uses: dtolnay/rust-toolchain@nightly
         with:
+          targets: mipsel-unknown-linux-musl
           components: rust-src
 
-      - name: Build binary with build-std
+      - name: Build binary with musl
         working-directory: rust-server
         run: |
-          CARGO_TARGET_MIPSEL_UNKNOWN_LINUX_GNU_LINKER=mipsel-linux-gnu-gcc \
-          RUSTFLAGS="-C link-arg=-Wl,-dynamic-linker=/opt/lib/ld.so.1 -C link-arg=-static-libgcc -C link-arg=-Wl,-Bstatic -C link-arg=-lgcc -C link-arg=-lgcc_eh -C link-arg=-Wl,-Bdynamic" \
+          CARGO_TARGET_MIPSEL_UNKNOWN_LINUX_MUSL_LINKER=mipsel-linux-gnu-gcc \
           cargo +nightly build \
-            --target mipsel-unknown-linux-gnu \
-            -Z build-std=core,alloc,std,panic_unwind \
+            --target mipsel-unknown-linux-musl \
             --release
 
       - name: Upload Binary Artifact
         uses: actions/upload-artifact@v4
         with:
           name: csqtt-server-mipsel
-          path: rust-server/target/mipsel-unknown-linux-gnu/release/csqtt*
+          path: rust-server/target/mipsel-unknown-linux-musl/release/csqtt*
