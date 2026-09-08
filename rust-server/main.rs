@@ -7,10 +7,6 @@ pub const fn allocator_name() -> &'static str {
     "system"
 }
 
-pub(crate) fn collect_allocator_thread_heap() -> bool {
-    false
-}
-
 mod dataplane;
 mod downlink_queue;
 #[path = "../shared/flow_frame.rs"]
