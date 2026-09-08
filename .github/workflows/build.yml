@@ -36,5 +36,5 @@ jobs:
       - name: Upload Binary Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: csqtt-server-mipsel
-          path: target/mipsel-unknown-linux-gnu/release/csqtt-server
+        name: csqtt-server-mipsel
+        path: rust-server/target/mipsel-unknown-linux-gnu/release/csqtt
