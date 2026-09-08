@@ -25,7 +25,6 @@ jobs:
           components: rust-src
 
       - name: Build binary with build-std
-        working-directory: rust-server
         run: |
           CARGO_TARGET_MIPSEL_UNKNOWN_LINUX_GNU_LINKER=mipsel-linux-gnu-gcc \
           cargo +nightly build \
@@ -37,4 +36,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: csqtt-server-mipsel
-          path: rust-server/target/mipsel-unknown-linux-gnu/release/csqtt-server
+          path: target/mipsel-unknown-linux-gnu/release/csqtt-server
