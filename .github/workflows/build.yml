@@ -27,13 +27,21 @@ jobs:
       - name: Build binary with build-std
         working-directory: rust-server
         run: |
+          # Перенаправляем создание статических библиотек snmalloc на создание пустой заглушки
           mkdir -p bin
-          echo '#!/bin/sh' > bin/mipsel-linux-gnu-g++
-          echo 'exit 0' >> bin/mipsel-linux-gnu-g++
-          chmod +x bin/mipsel-linux-gnu-g++
-          
+          cat << 'EOF' > bin/ar
+          #!/bin/sh
+          if echo "$@" | grep -q "snmalloc"; then
+            touch "$@"
+            exit 0
+          fi
+          exec /usr/bin/mipsel-linux-gnu-ar "$@"
+          EOF
+          chmod +x bin/ar
+
           PATH="$PWD/bin:$PATH" \
           CARGO_TARGET_MIPSEL_UNKNOWN_LINUX_GNU_LINKER=mipsel-linux-gnu-gcc \
+          SNMALLOC_RUST_EXTERNAL_TOOL=1 \
           cargo +nightly build \
             --target mipsel-unknown-linux-gnu \
             -Z build-std=core,alloc,std,panic_unwind \
