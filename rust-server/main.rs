@@ -7,6 +7,8 @@ pub use std::sync::atomic::{AtomicI64, AtomicU64};
 #[cfg(not(target_has_atomic = "64"))]
 pub use portable_atomic::{AtomicI64, AtomicU64};
 
+pub use memory_metrics::collect_allocator_thread_heap;
+
 #[global_allocator]
 static GLOBAL_ALLOCATOR: std::alloc::System = std::alloc::System;
 
