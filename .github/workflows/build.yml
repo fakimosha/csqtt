@@ -25,10 +25,9 @@ jobs:
           components: rust-src
 
       - name: Build binary with build-std
-        working-directory: csqtt-uring
+        working-directory: rust-server
         run: |
           CARGO_TARGET_MIPSEL_UNKNOWN_LINUX_GNU_LINKER=mipsel-linux-gnu-gcc \
-          RUSTFLAGS="--cfg=io_uring_skip_arch_check" \
           cargo +nightly build \
             --target mipsel-unknown-linux-gnu \
             -Z build-std=core,alloc,std,panic_unwind \
@@ -38,4 +37,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: csqtt-server-mipsel
-          path: csqtt-uring/target/mipsel-unknown-linux-gnu/release/csqtt-uring
+          path: rust-server/target/mipsel-unknown-linux-gnu/release/csqtt-server
