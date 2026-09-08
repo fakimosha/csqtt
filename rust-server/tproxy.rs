@@ -1038,7 +1038,8 @@ mod linux {
     use std::os::fd::{AsRawFd, RawFd};
     use std::ptr;
     use std::sync::Arc;
-    use std::sync::atomic::{AtomicBool, AtomicI64, AtomicU64, Ordering};
+    use crate::{AtomicI64, AtomicU64};
+    use std::sync::atomic::{AtomicBool, Ordering};
     use std::time::{Duration, Instant};
     use tokio::io::unix::AsyncFd;
     use tokio::io::{AsyncReadExt, AsyncWriteExt};
